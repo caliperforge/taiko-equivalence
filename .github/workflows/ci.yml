@@ -1,0 +1,43 @@
+# Both-leg CI: every push/PR proves the clean twin passes AND the
+# planted twin fails with INVARIANT VIOLATED markers. forge-std is a
+# pinned submodule, solc is cached, so CI cannot drift from local runs.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  clean-passes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.7.1
+      - name: Cache solc 0.8.28
+        uses: actions/cache@v4
+        with:
+          path: ~/.svm
+          key: solc-0.8.28-${{ runner.os }}
+      - name: Clean twin passes, zero markers
+        run: ./ci/clean_leg.sh
+
+  planted-bug-twin-fails:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.7.1
+      - name: Cache solc 0.8.28
+        uses: actions/cache@v4
+        with:
+          path: ~/.svm
+          key: solc-0.8.28-${{ runner.os }}
+      - name: Planted twin fails with markers (inverted assertion)
+        run: ./ci/planted_leg.sh

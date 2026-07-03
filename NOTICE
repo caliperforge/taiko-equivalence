@@ -1,0 +1,85 @@
+taiko-equivalence
+Copyright 2026 CaliperForge / Michael Moffett.
+
+Licensed under the Apache License, Version 2.0 (see LICENSE). This
+NOTICE file is provided for compliance with Section 4(d) of the Apache
+License.
+
+------------------------------------------------------------------------
+Scope of this NOTICE
+------------------------------------------------------------------------
+
+This repository contains three original Solidity source files (clean
+and planted twins) plus a differential Foundry harness. No upstream
+Taiko source code, build configuration, prover artifacts, or contracts
+are vendored or copied into this repository; the three files under
+src/ are minimal demonstrations written from scratch against the
+public specifications and documentation cited below. The contracts are
+named "execution-layer mirrors" precisely to flag this: they mirror
+behavior the public spec requires of a Type-1 execution layer; they
+are not copies of any Taiko-Labs-authored source.
+
+Forge-std is vendored as a pinned git submodule at lib/forge-std
+(tag v1.9.4); no Foundry source is duplicated inside this repository.
+
+------------------------------------------------------------------------
+Upstream specifications and documentation referenced
+------------------------------------------------------------------------
+
+Ethereum specification authors
+
+  Ethereum Yellow Paper (Wood et al.). Appendix E ("Precompiled
+  Contracts") is the canonical reference for the precompile-parity
+  property exercised by src/PrecompileMirror.sol and the SHA-256
+  branch of test/Equivalence.t.sol.
+  https://ethereum.github.io/yellowpaper/paper.pdf
+
+  EIP-2929 (Buterin, Swende), "Gas cost increases for state access
+  opcodes." Source of the cold (2100) and warm (100) storage-access
+  constants exercised by src/GasSchedule.sol and the gas-schedule
+  branch of test/Equivalence.t.sol.
+  https://eips.ethereum.org/EIPS/eip-2929
+
+  EIP-3529 and EIP-3651 are named in README.md's scope discussion as
+  follow-on Type-1 surfaces; no source file in this repository
+  depends on them yet.
+
+NIST
+
+  FIPS 180-4, "Secure Hash Standard," is the source of the canonical
+  "abc" SHA-256 test vector used by test/Equivalence.t.sol.
+  https://csrc.nist.gov/publications/detail/fips/180/4/final
+
+Taiko Labs
+
+  Taiko documentation, "Multi-proofs" page (which carries the Type-1
+  Ethereum-equivalence framing). Cited in README.md as the spec
+  reference for the PrecompileParity case.
+  https://docs.taiko.xyz/core-concepts/multi-proofs
+
+  Taiko documentation, "Based contestable rollup" page. Cited in
+  README.md as the spec reference for the BasedSequencingOrdering
+  case (inclusion-list ordering rule).
+  https://docs.taiko.xyz/core-concepts/based-contestable-rollup
+
+  Taiko whitepaper. Sections "Why Type-1" and "Based Contestable
+  Rollup" are cited in README.md to frame the Type-1 vs Type-2
+  discriminator and the proposing / proving role decoupling.
+  https://taiko.xyz/whitepaper.pdf
+
+The "Taiko" name and the Taiko logo are trademarks of Taiko Labs.
+This repository is not affiliated with, sponsored by, or endorsed by
+Taiko Labs; it implements public specifications and references public
+documentation for the purpose of demonstrating a defender-side
+property test pattern.
+
+------------------------------------------------------------------------
+Toolchain authors
+------------------------------------------------------------------------
+
+  Foundry (forge, cast, anvil) and forge-std are by Foundry-rs.
+  Forge-std is vendored as a pinned, unmodified git submodule at
+  lib/forge-std (tag v1.9.4, Apache-2.0/MIT dual-licensed by its
+  authors).
+  https://github.com/foundry-rs/foundry
+  https://github.com/foundry-rs/forge-std
